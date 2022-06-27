@@ -65,7 +65,7 @@
     template: src=templates/conn.py.jinja dest={{tbase}}/node_conn.py
     vars:
       rrole: nodemanager
-      rip: "{{item}}"
+      rip: "{{ansible_ssh_host}}"
       rport: "{{nodemanager.get('port')}}"
       admin_user: "{{mysql.get('user','root')}}"
       admin_passwd: "{{mysql.get('passwd','fate')}}"
@@ -74,8 +74,6 @@
       db_port: "{{db.get('port',3306)}}"
       db_user: "{{db.get('dbuser','fate')}}"
       db_passwd: "{{db.get('dbpasswd','fate')}}"
-    with_items:
-    - "{{nodemanager.get('ips',[])}}"
 
   - name: "commit({{deploy_mode}}): node_conn.py"
     shell: "{{cbase}}/miniconda3/bin/python {{tbase}}/node_conn.py"
